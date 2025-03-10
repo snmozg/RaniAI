@@ -9,11 +9,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.sozge.raniai.components.CustomTextInput
 import com.sozge.raniai.components.ExpandedButton
+import com.sozge.raniai.viewmodels.AuthViewModel
+import com.sozge.raniai.viewmodels.AuthViewModelFactory
 
 @Composable
-fun SignInPage() {
+fun SignInPage(
+    navController: NavController,
+    authViewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory())
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -39,7 +47,16 @@ fun SignInPage() {
             keyboardType = KeyboardType.Password,
         )
         ExpandedButton(text = "Sign ın") {
-            // sign In logic
+            authViewModel.signIn(
+                email.value,
+                password.value,
+                onSuccess = {
+                    navController.navigate("HomePage")
+                },
+                onError = { message ->
+                    println(message)
+                }
+            )
         }
     }
 }

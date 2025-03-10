@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.google.gms.google-services")
     alias(libs.plugins.android.application)
@@ -7,6 +9,9 @@ plugins {
 android {
     namespace = "com.sozge.raniai"
     compileSdk = 35
+
+    val localProperties = gradleLocalProperties(rootDir, providers)
+    val apiKey: String = localProperties.getProperty("API_KEY") ?: ""
 
     defaultConfig {
         applicationId = "com.sozge.raniai"
@@ -19,6 +24,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -28,6 +34,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
         }
     }
     compileOptions {
@@ -39,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -82,4 +90,8 @@ dependencies {
 
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
+
+    //Gemini
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 }

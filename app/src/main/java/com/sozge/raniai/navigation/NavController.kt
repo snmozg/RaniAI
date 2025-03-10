@@ -1,10 +1,15 @@
 package com.sozge.raniai.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.sozge.raniai.pages.ProfilePage
+import com.sozge.raniai.pages.authpages.ForgotPasswordPage
+import com.sozge.raniai.pages.authpages.SignInPage
+import com.sozge.raniai.pages.authpages.SignUpPage
 import com.sozge.raniai.pages.dreampages.CategoryPage
 import com.sozge.raniai.pages.dreampages.ExplainPage
 import com.sozge.raniai.pages.mainpages.DreamPage
@@ -15,10 +20,12 @@ import com.sozge.raniai.pages.zodiacpages.ZodiacConstellationsPage
 import com.sozge.raniai.pages.zodiacpages.ZodiacDailyCommentPage
 import com.sozge.raniai.pages.zodiacpages.ZodiacInfoPage
 import com.sozge.raniai.viewmodels.CategoryViewModel
+import com.sozge.raniai.viewmodels.GeminiViewModel
 
 @Composable
 fun NavController() {
     val categoryViewModel = CategoryViewModel()
+    val geminiViewModel = GeminiViewModel()
     val navController = rememberNavController()
 
     NavHost(
@@ -29,7 +36,11 @@ fun NavController() {
         composable(route = "DreamPage") { DreamPage(navController) }
         composable(route = "ZodiacPage") { ZodiacPage(navController) }
 
-        composable(route = "UserInfoPage") { ProfilePage(navController) }
+        composable(route = "ProfilePage") { ProfilePage(navController) }
+
+        composable(route = "SignInPage") { SignInPage(navController) }
+        composable(route = "SignUpPage") { SignUpPage(navController) }
+        composable(route = "ForgotPasswordPage") { ForgotPasswordPage(navController) }
 
         composable("ZodiacInfoPage/{zodiacName}") { backStackEntry ->
             val zodiacName = backStackEntry.arguments?.getString("zodiacName") ?: "Bilinmiyor"
@@ -41,7 +52,7 @@ fun NavController() {
         }
         composable(route = "ZodiacDailyCommentPage") { ZodiacDailyCommentPage(navController) }
 
-        composable(route = "ExplainPage") { ExplainPage(navController) }
+        composable(route = "ExplainPage") { ExplainPage(navController, geminiViewModel) }
         composable(route = "RisingPage") { RisingPage(navController) }
         composable(route="CategoryPage") { CategoryPage(navController, categoryViewModel) }
 
