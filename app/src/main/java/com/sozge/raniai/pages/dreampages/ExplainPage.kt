@@ -27,9 +27,14 @@ import com.sozge.raniai.components.CustomTextInput
 import com.sozge.raniai.components.ExpandedButton
 import com.sozge.raniai.components.ExplainCharacterButton
 import com.sozge.raniai.components.TopBar
+import com.sozge.raniai.constants.ExplainPrompt
+import com.sozge.raniai.viewmodels.GeminiViewModel
 
 @Composable
-fun ExplainPage(navController: NavController) {
+fun ExplainPage(
+    navController: NavController,
+    geminiViewModel: GeminiViewModel
+    ) {
     val message = remember { mutableStateOf("") }
     var selectedTab by remember { mutableStateOf("") }
     var selectedCharacterCode by remember { mutableStateOf("") }
@@ -149,7 +154,14 @@ fun ExplainPage(navController: NavController) {
                 ExpandedButton(
                     text = "Rüyanı Yorumla!",
                 ) {
-                    println(selectedCharacterCode)
+
+                    val prompt = ExplainPrompt(
+                        message = message.value,
+                        user = selectedCharacterCode
+                    )
+                    geminiViewModel.getGeminiData(prompt)
+                    val response = geminiViewModel.responseState.value
+                    //println(response)
                 }
             }
         }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "920130796137",
+    "project_id": "rani-72d22",
+    "storage_bucket": "rani-72d22.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920130796137:android:7395deb7ebf9bd8ad880f8",
+        "android_client_info": {
+          "package_name": "com.sozge.raniai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtMzchG02J7JLOB_KCI-Uav_yQv_auIgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
