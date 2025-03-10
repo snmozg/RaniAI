@@ -31,13 +31,13 @@ fun NavController() {
 
         composable(route = "UserInfoPage") { ProfilePage(navController) }
 
-        composable("ZodiacInfoPage/{horoscopeName}") { backStackEntry ->
-            val horoscopeName = backStackEntry.arguments?.getString("horoscopeName") ?: "Bilinmiyor"
-            ZodiacInfoPage(navController, horoscopeName)
+        composable("ZodiacInfoPage/{zodiacName}") { backStackEntry ->
+            val zodiacName = backStackEntry.arguments?.getString("zodiacName") ?: "Bilinmiyor"
+            ZodiacInfoPage(navController, zodiacName)
         }
-        composable("ZodiacConstellationsPage/{horoscopeName}") { backStackEntry ->
-            val horoscopeName = backStackEntry.arguments?.getString("horoscopeName") ?: "Bilinmiyor"
-            ZodiacConstellationsPage(navController, horoscopeName)
+        composable("ZodiacConstellationsPage/{zodiacName}") { backStackEntry ->
+            val zodiacName = backStackEntry.arguments?.getString("zodiacName") ?: "Bilinmiyor"
+            ZodiacConstellationsPage(navController, zodiacName)
         }
         composable(route = "ZodiacDailyCommentPage") { ZodiacDailyCommentPage(navController) }
 
