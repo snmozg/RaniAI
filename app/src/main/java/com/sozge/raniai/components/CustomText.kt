@@ -21,7 +21,7 @@ fun CustomText(
     fontWeight: FontWeight = FontWeight.Bold,
     color: Color = MaterialTheme.colorScheme.onBackground,
     textAlign: TextAlign = TextAlign.Start,
-    padding: Dp = 0.dp
+    padding: Dp = 0.dp,
 ) {
     Text(
         modifier = Modifier.padding(start = padding),
