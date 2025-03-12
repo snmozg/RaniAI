@@ -42,12 +42,12 @@ fun SignInPage(
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     
-    // Animation states
+
     var logoVisible by remember { mutableStateOf(false) }
     var formVisible by remember { mutableStateOf(false) }
     var buttonVisible by remember { mutableStateOf(false) }
     
-    // Start animations sequentially
+
     LaunchedEffect(key1 = true) {
         logoVisible = true
         delay(300)
@@ -90,7 +90,7 @@ fun SignInPage(
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 
-                // Logo with animation
+
                 AnimatedVisibility(
                     visible = logoVisible,
                     enter = fadeIn() + slideInVertically { it / 2 }
@@ -127,8 +127,6 @@ fun SignInPage(
                         )
                     }
                 }
-                
-                // Form with animation
                 AnimatedVisibility(
                     visible = formVisible,
                     enter = fadeIn() + slideInVertically { it / 2 }
@@ -186,8 +184,6 @@ fun SignInPage(
                         }
                     }
                 }
-                
-                // Buttons with animation
                 AnimatedVisibility(
                     visible = buttonVisible,
                     enter = fadeIn() + slideInVertically { it / 2 }

@@ -40,12 +40,12 @@ fun SignUpPage(
     val password = remember { mutableStateOf("") }
     val confirmPassword = remember { mutableStateOf("") }
     
-    // Animation states
+
     var logoVisible by remember { mutableStateOf(false) }
     var formVisible by remember { mutableStateOf(false) }
     var buttonVisible by remember { mutableStateOf(false) }
     
-    // Start animations sequentially
+
     LaunchedEffect(key1 = true) {
         logoVisible = true
         delay(300)
@@ -125,7 +125,7 @@ fun SignUpPage(
                     }
                 }
                 
-                // Form with animation
+
                 AnimatedVisibility(
                     visible = formVisible,
                     enter = fadeIn() + slideInVertically { it / 2 }
@@ -180,8 +180,6 @@ fun SignUpPage(
                         }
                     }
                 }
-                
-                // Buttons with animation
                 AnimatedVisibility(
                     visible = buttonVisible,
                     enter = fadeIn() + slideInVertically { it / 2 }
@@ -196,11 +194,14 @@ fun SignUpPage(
                         ExpandedButton(
                             text = "Kayıt Ol"
                         ) {
-                            authViewModel.signIn(
-                                email.value,
-                                password.value,
-                                onSuccess = {
-                                    navController.navigate("HomePage")
+                            authViewModel.signUp(
+                                email = email.value,
+                                password = password.value,
+                                confirmPassword = confirmPassword.value,
+                                onSuccess = { success ->
+                                    if (success) {
+                                        navController.navigate("HomePage")
+                                    }
                                 },
                                 onError = { message ->
                                     println(message)

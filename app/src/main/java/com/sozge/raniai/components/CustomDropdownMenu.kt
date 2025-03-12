@@ -47,7 +47,6 @@ fun CustomDropdownMenu(
     ) {
         Box(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
                 .border(
                     1.dp,
