@@ -27,7 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.auth.FirebaseAuth
 import com.sozge.raniai.R
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -45,8 +44,6 @@ fun TopBar(
 
     val dateFormat = remember { SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()) }
     val currentDate = remember { mutableStateOf(dateFormat.format(Date())) }
-
-    val currentUser = FirebaseAuth.getInstance().currentUser
 
 
     TopAppBar(
@@ -118,14 +115,10 @@ fun TopBar(
                             interactionSource = interactionSource,
                             indication = null
                         ) {
-                            if (currentUser == null) {
-                                navController.navigate("SignInPage")
-                            } else {
-                                navController.navigate("ProfilePage")
-                            }
+                            navController.navigate("ProfilePage")
                         },
                     painter = painterResource(id = R.drawable.navprofile),
-                    contentDescription = "User Infos Button",
+                    contentDescription = "profileButton",
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
