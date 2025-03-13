@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -55,6 +56,8 @@ fun CustomTextInput(
                 .clip(RoundedCornerShape(20.dp)),
 
             colors = TextFieldDefaults.textFieldColors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
                 containerColor = MaterialTheme.colorScheme.background,
                 focusedIndicatorColor = MaterialTheme.colorScheme.primary,
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.background,
@@ -82,6 +85,8 @@ fun CustomTextInput(
                 .clip(RoundedCornerShape(20.dp)),
 
             colors = TextFieldDefaults.textFieldColors(
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
                 containerColor = MaterialTheme.colorScheme.background,
                 focusedIndicatorColor = MaterialTheme.colorScheme.primary,
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,

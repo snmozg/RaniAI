@@ -73,14 +73,14 @@ fun ProfilePage(navController: NavController) {
     var age by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
 
-    // BottomSheet için state'ler
+
     var showIconSelector by remember { mutableStateOf(false) }
     val bottomSheetState = rememberModalBottomSheetState()
 
-    // Seçilen ikon
+
     var selectedIcon by remember { mutableStateOf<Painter?>(null) }
 
-    // İkon listesi
+
     val iconList = listOf(
         painterResource(id = R.drawable.profilefairy),
         painterResource(id = R.drawable.profileghost),
@@ -88,7 +88,7 @@ fun ProfilePage(navController: NavController) {
         painterResource(id = R.drawable.profilepirate),
         painterResource(id = R.drawable.profilefrog),
         painterResource(id = R.drawable.profileprincess),
-        painterResource(id = R.drawable.profilegnome),
+        painterResource(id = R.drawable.profiletooth),
         painterResource(id = R.drawable.profilegnome),
         painterResource(id = R.drawable.profilemermaid),
         painterResource(id = R.drawable.profiledemon),
@@ -220,7 +220,6 @@ fun ProfilePage(navController: NavController) {
         }
     }
 
-    // BottomSheet ile ikon seçici
     if (showIconSelector) {
         ModalBottomSheet(
             onDismissRequest = { showIconSelector = false },
@@ -269,7 +268,7 @@ fun ProfilePage(navController: NavController) {
                         ) {
                             Image(
                                 painter = icon,
-                                contentDescription = "İkon seçeneği",
+                                contentDescription = "icon",
                                 modifier = Modifier.size(60.dp)
                             )
                         }

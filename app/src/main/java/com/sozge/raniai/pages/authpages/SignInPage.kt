@@ -71,7 +71,7 @@ fun SignInPage(
             TopBar(
                 title = "Hoş Geldin!",
                 isEnableBackButton = true,
-                navController = navController
+                navController = navController,
             )
         }
     ) { innerPadding ->
