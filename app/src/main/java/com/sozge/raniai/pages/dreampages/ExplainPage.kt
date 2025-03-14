@@ -1,5 +1,6 @@
 package com.sozge.raniai.pages.dreampages
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sozge.raniai.R
 import com.sozge.raniai.components.CustomText
@@ -28,6 +36,7 @@ import com.sozge.raniai.components.ExpandedButton
 import com.sozge.raniai.components.ExplainCharacterButton
 import com.sozge.raniai.components.TopBar
 import com.sozge.raniai.constants.ExplainPrompt
+import com.sozge.raniai.viewmodels.GeminiResponseState
 import com.sozge.raniai.viewmodels.GeminiViewModel
 
 @Composable
@@ -38,6 +47,8 @@ fun ExplainPage(
     val message = remember { mutableStateOf("") }
     var selectedTab by remember { mutableStateOf("") }
     var selectedCharacterCode by remember { mutableStateOf("") }
+    val responseState by geminiViewModel.responseState.collectAsStateWithLifecycle()
+    val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier
@@ -53,7 +64,8 @@ fun ExplainPage(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -153,15 +165,63 @@ fun ExplainPage(
             ) {
                 ExpandedButton(
                     text = "Rüyanı Yorumla!",
+                    //enabled = message.value.isNotBlank() && selectedCharacterCode.isNotBlank()
                 ) {
-
                     val prompt = ExplainPrompt(
                         message = message.value,
                         user = selectedCharacterCode
                     )
                     geminiViewModel.getGeminiData(prompt)
-                    val response = geminiViewModel.responseState.value
-                    //println(response)
+                }
+            }
+            
+            // Response display section
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                when (responseState) {
+                    is GeminiResponseState.Loading -> {
+                        CircularProgressIndicator()
+                        CustomText(text = "Rüyanız yorumlanıyor...", fontSize = 16.sp)
+                    }
+                    is GeminiResponseState.Success -> {
+                        val responseText = (responseState as GeminiResponseState.Success).text
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                CustomText(text = "Rüya Yorumu", fontSize = 18.sp, color = MaterialTheme.colorScheme.background)
+                                CustomText(text = responseText, fontSize = 16.sp, color = MaterialTheme.colorScheme.background)
+                            }
+                        }
+                    }
+                    is GeminiResponseState.Error -> {
+                        val errorMessage = (responseState as GeminiResponseState.Error).message
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFFFEEEE))
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                CustomText(text = "Hata Oluştu", fontSize = 18.sp, color = MaterialTheme.colorScheme.background)
+                                CustomText(text = errorMessage, fontSize = 16.sp, color = MaterialTheme.colorScheme.background)
+                            }
+                        }
+                    }
+                    else -> {
+                        // Idle state or initial state - show nothing or instructions
+                        if (selectedCharacterCode.isNotBlank()) {
+                            CustomText(
+                                text = "Rüyanızın yorumlanması için 'Rüyanı Yorumla!' butonuna tıklayın.",
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.background
+                            )
+                        }
+                    }
                 }
             }
         }
