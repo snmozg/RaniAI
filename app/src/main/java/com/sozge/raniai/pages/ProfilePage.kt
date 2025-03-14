@@ -43,6 +43,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -58,6 +59,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sozge.raniai.R
@@ -65,10 +67,11 @@ import com.sozge.raniai.components.CustomDropdownMenu
 import com.sozge.raniai.components.CustomTextInput
 import com.sozge.raniai.components.ExpandedButton
 import com.sozge.raniai.components.TopBar
+import com.sozge.raniai.viewmodels.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun ProfilePage(navController: NavController) {
+fun ProfilePage(navController: NavController, authViewModel: AuthViewModel = AuthViewModel()) {
     var name by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
@@ -109,8 +112,40 @@ fun ProfilePage(navController: NavController) {
             )
         },
         floatingActionButton = {
-            ExpandedButton(text = "Kaydet") {
-                println(name + "\n" + age + "\n" + gender + "\n" + selectedIcon)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ExpandedButton(text = "Kaydet") {
+                    println(name + "\n" + age + "\n" + gender + "\n" + selectedIcon)
+                }
+                
+                TextButton(
+                    onClick = {
+                        authViewModel.signOut(
+                            onSuccess = { success ->
+                                if (success) {
+                                    navController.navigate("SignInPage") {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            inclusive = true
+                                        }
+                                    }
+                                }
+                            },
+                            onError = { error ->
+                                println("Logout error: $error")
+                            }
+                        )
+                    },
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = "Çıkış Yap",
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         },
         floatingActionButtonPosition = FabPosition.Center
